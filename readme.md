@@ -1,18 +1,44 @@
-# project t
+# every dog has its day
+You were chilling when a truck passed dropping some food, that's worth a run.
 
-A personal(public) boilerplate for new games. It has a namespace "Route Game Studios",
-just to not have my name in all files, which would be weird. Please don't steal this name for your
-indie game studio.
+<br>
 
-## Credits
+<details open="open">
+  <summary>Table of Contents</summary>
+  <ul>
+    <li><a href="#-about-the-game"> About the game</a></li>
+    <li><a href="#-how-to-play"> How to play</a></li>
+    <li><a href="#-game-design"> Game design</a></li>
+    <li><a href="#-game-development"> Game development</a></li>
+    <li><a href="#-credits"> Credits</a></li>
+  </ul>
+</details>
 
-[Giovane Machado](https://github.com/giovanemachado) - game design and game development
+<h2 id="#about-the-game"> About the game</h2>
+You were chilling out when a truck passed dropping some food, that's worth a run. Keep avoiding the obstacles why collecting some delicious things!
 
-[Teammates](...)
+<h2 id="#how-to-play"> How to play</h2>
+<!-- Download the game here:  -->
+Slide up and down and avoid hitting obstacles. Collecting food is going to increase your points.
 
-### Other sound attributions:
+<h2 id="#game-design"> Game design</h2>
+This game's supposed to be hyper-casual, that you enjoy some time while increasing points to use new dogs and discover more about the history. Nothing too complicated, inspired by games like Fishing Food and Like a Dino, and by my own dog.
 
-Extreme Sport Trap Music | PISTA by Alex-Productions | https://www.youtube.com/channel/UCx0_M61F81Nfb-BRXE-SeVA
-Music promoted by https://www.chosic.com/free-music/all/
-Creative Commons CC BY 3.0
-https://creativecommons.org/licenses/by/3.0/
+<h2 id="#game-development"> Game development</h2>
+This is a side project created to try something on mobile, and be my first online launch game. I tried in this project to keep my GameStateManager, GameplayManager, and GameSettings as my main files.
+
+GameStateManager is to keep track and control of game states, like Playing, Paused and etc.
+
+GameplayManager is to control things more game-related, like the "speed" of the current session and more things as necessary.
+
+The last one, GameSettings is a Singleton to put all my global variables, to maintain the balance of the game in a  more easy way.
+
+I used Unity as my primary tool, and community assets.
+
+<h2 id="#credits"> Credits</h2>
+
+<a href="https://github.com/giovanemachado"> Giovane Machado </a> - game design and game development
+
+<a href="https://elthen.itch.io/2d-pixel-art-fox-sprites"> elthen </a> - sprites and animation
+
+<a href="https://www.kenney.nl/assets/rpg-urban-pack"> Kenney </a> - sprites
