@@ -1,5 +1,6 @@
 using RouteTeamStudios.GameState;
 using RouteTeamStudios.General;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,8 @@ namespace RouteTeamStudios.Player
 {
     public class PlayerManager : MonoBehaviour
     {
+        public static event Action OnGetFood;
+
         Animator _animator;
         GameSettings _gameSettings;
 
@@ -31,13 +34,19 @@ namespace RouteTeamStudios.Player
         {
             if (collision.gameObject.CompareTag("Obstacle"))
             {
-                if (_gameSettings.GodMode)
+                if (_gameSettings.IsGodModeOn())
                 {
                     Destroy(collision.gameObject);
                     return;
                 }
 
                 GameManager.Instance.SwitchState(GameManager.Instance.GameOverState);
+            }
+
+            if (collision.gameObject.CompareTag("Food"))
+            {
+                Destroy(collision.gameObject);
+                OnGetFood?.Invoke();
             }
         }
 

@@ -10,14 +10,27 @@ namespace RouteTeamStudios.General
     {
         public GameObject Obstacle;
 
-        GameSettings gameSettings;
-
-        bool isPlaying;
-        bool obstaclesStarted = false;
+        GameSettings _gameSettings;
+        bool _isPlaying;
+        bool _obstaclesStarted = false;
 
         void Awake()
         {
             GameManager.OnGameStateChange += OnGameStateChange;
+        }
+
+        void Start()
+        {
+            _gameSettings = GameSettings.Instance;
+        }
+
+        void Update()
+        {
+            if (!_gameSettings.IsSpawningObstacles()) return;
+
+            if (!_isPlaying) return;
+
+            if (!_obstaclesStarted) StartCoroutine(StartObstacles());
         }
 
         void OnDestroy()
@@ -25,27 +38,16 @@ namespace RouteTeamStudios.General
             GameManager.OnGameStateChange -= OnGameStateChange;
         }
 
-        void Update()
-        {
-            if (!isPlaying) return;
-
-            if (!obstaclesStarted) StartCoroutine(StartObstacles());
-        }
-
-        void Start()
-        {
-            gameSettings = GameSettings.Instance;
-        }
 
         void OnGameStateChange(BaseGameState state)
         {
-            isPlaying = state == GameManager.Instance.PlayingState;
+            _isPlaying = state == GameManager.Instance.PlayingState;
         }
 
         IEnumerator StartObstacles()
         {
-            obstaclesStarted = true;
-            yield return new WaitForSeconds(gameSettings.FirstObstacleTiming);
+            _obstaclesStarted = true;
+            yield return new WaitForSeconds(_gameSettings.FirstObstacleTiming);
 
             StartCoroutine(SummonRandomObstacles(GetObstacleTiming()));
         }
@@ -61,14 +63,14 @@ namespace RouteTeamStudios.General
         float GetObstacleTiming()
         {
             return Random.Range(
-                gameSettings.ObstaclesTimingMin,
-                gameSettings.ObstaclesTimingMax
+                _gameSettings.ObstaclesTimingMin,
+                _gameSettings.ObstaclesTimingMax
             );
         }
 
         GameObject GetRandomLane()
         {
-            return gameSettings.Lanes[Random.Range(0, gameSettings.Lanes.Length)];
+            return _gameSettings.Lanes[Random.Range(0, _gameSettings.Lanes.Length)];
         }
     }
 }

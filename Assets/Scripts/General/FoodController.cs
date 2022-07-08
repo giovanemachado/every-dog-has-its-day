@@ -1,12 +1,11 @@
-using RouteTeamStudios.GameState;
 using System.Collections;
 using System.Collections.Generic;
+using RouteTeamStudios.GameState;
 using UnityEngine;
 
 namespace RouteTeamStudios.General
-
 {
-    public class ObstacleController : MonoBehaviour
+    public class FoodController : MonoBehaviour
     {
         GameSettings _gameSettings;
         bool _isPlaying;
@@ -26,7 +25,7 @@ namespace RouteTeamStudios.General
         {
             if (!_isPlaying) return;
 
-            transform.position = transform.position + (Vector3.left * (_gameSettings.ObstacleMovementSpeed * Time.deltaTime));
+            transform.position = transform.position + (Vector3.left * (_gameSettings.FoodMovementSpeed * Time.deltaTime));
 
             if (transform.position.x < -50)
             {
@@ -42,14 +41,6 @@ namespace RouteTeamStudios.General
         void OnGameStateChange(BaseGameState state)
         {
             _isPlaying = state == GameManager.Instance.PlayingState;
-        }
-
-        void OnCollisionEnter2D(Collision2D collision)
-        {
-            if (collision.gameObject.CompareTag("Food"))
-            {
-                Destroy(collision.gameObject);
-            }
         }
     }
 }

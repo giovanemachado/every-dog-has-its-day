@@ -1,12 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using RouteTeamStudios.GameState;
+using RouteTeamStudios.Player;
+using TMPro;
 using UnityEngine;
 
 namespace RouteTeamStudios.General
 {
     public class GameplayManager : MonoBehaviour
     {
+        public TextMeshProUGUI scoreText;
+        public int score = 0;
+
         GameSettings _gameSettings;
         bool _isPlaying;
         bool _gameSpeedIncreaseStarted;
@@ -14,11 +19,13 @@ namespace RouteTeamStudios.General
         void Awake()
         {
             GameManager.OnGameStateChange += OnGameStateChange;
+            PlayerManager.OnGetFood += OnGetFood;
         }
 
         void OnDestroy()
         {
             GameManager.OnGameStateChange -= OnGameStateChange;
+            PlayerManager.OnGetFood -= OnGetFood;
         }
 
         void Start()
@@ -38,6 +45,11 @@ namespace RouteTeamStudios.General
             _isPlaying = state == GameManager.Instance.PlayingState;
         }
 
+        void OnGetFood()
+        {
+            IncreaseScore(1);
+        }
+
         IEnumerator StartIncreaseGameSpeed()
         {
             _gameSpeedIncreaseStarted = true;
@@ -54,6 +66,23 @@ namespace RouteTeamStudios.General
             yield return new WaitForSecondsRealtime(_gameSettings.IncreaseGameSpeedTiming);
 
             StartCoroutine(IncreaseGameSpeed());
+        }
+
+        public void IncreaseScore(int amount)
+        {
+            score += amount;
+            UpdateScoreUI(score);
+        }
+
+        public void ResetScore()
+        {
+            score = 0;
+            UpdateScoreUI(score);
+        }
+
+        void UpdateScoreUI(int score)
+        {
+            scoreText.text = "Score: " + score.ToString();
         }
     }
 }

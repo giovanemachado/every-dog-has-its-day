@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Lane
   - Obstacle
+  - Food
   layers:
   - Default
   - TransparentFX
