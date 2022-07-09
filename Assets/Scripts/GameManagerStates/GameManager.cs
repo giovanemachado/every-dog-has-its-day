@@ -12,7 +12,8 @@ namespace RouteTeamStudios.GameState
         [HideInInspector] public PlayingState PlayingState = new PlayingState();
         [HideInInspector] public PausedState PausedState = new PausedState();
         [HideInInspector] public QuitState QuitState = new QuitState();
-        [HideInInspector] public GameOverState GameOverState = new GameOverState();
+        [HideInInspector] public GameOverState GameOverState = new GameOverState(); 
+        [HideInInspector] public StoreState StoreState = new StoreState();
 
         public static event Action<BaseGameState> OnGameStateChange;
 

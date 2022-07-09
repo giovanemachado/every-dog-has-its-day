@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using RouteTeamStudios.GameState;
@@ -9,8 +10,17 @@ namespace RouteTeamStudios.General
 {
     public class GameplayManager : MonoBehaviour
     {
-        public TextMeshProUGUI scoreText;
-        public int score = 0;
+        [HideInInspector] public int DogPoints;
+        [HideInInspector] public int HighScore = 0;
+
+        [Header("Store")]
+        public GameObject StoreManagerGO;
+        StoreManager _storeManager;
+
+        [Header("Current gameplay")]
+        public int Score = 0;
+        public TextMeshProUGUI ScoreText;
+        public TextMeshProUGUI HighScoreText;
 
         GameSettings _gameSettings;
         bool _isPlaying;
@@ -43,6 +53,17 @@ namespace RouteTeamStudios.General
         void OnGameStateChange(BaseGameState state)
         {
             _isPlaying = state == GameManager.Instance.PlayingState;
+
+            if (state == GameManager.Instance.MainMenuState)
+            {
+                LoadData();
+                UpdateScoreUI(Score, HighScore);
+            }
+
+            if (state == GameManager.Instance.GameOverState)
+            {
+                SaveData();
+            }
         }
 
         void OnGetFood()
@@ -70,19 +91,47 @@ namespace RouteTeamStudios.General
 
         public void IncreaseScore(int amount)
         {
-            score += amount;
-            UpdateScoreUI(score);
+            Score += amount;
+            UpdateScoreUI(Score, HighScore);
         }
 
         public void ResetScore()
         {
-            score = 0;
-            UpdateScoreUI(score);
+            Score = 0;
+            UpdateScoreUI(Score, HighScore);
         }
 
-        void UpdateScoreUI(int score)
+        void UpdateScoreUI(int score, int highScore)
         {
-            scoreText.text = "Score: " + score.ToString();
+            ScoreText.text = "Score: " + score.ToString();
+            HighScoreText.text = "High Score: " + highScore.ToString();
+        }
+
+        public void SaveData()
+        {
+            DogPoints += Score;
+
+            if (Score > HighScore) HighScore = Score;
+
+            SaveSystem.SaveData(new GameplayData(this));
+        }
+
+        public void LoadData()
+        {
+            GameplayData data = SaveSystem.LoadData(this);
+
+            if (data == null)
+            {
+                DogPoints = 0;
+                HighScore = 0;
+                return;
+            }
+
+            DogPoints = data.DogPoints;
+            HighScore = data.HighScore;
+
+            _storeManager = StoreManagerGO.GetComponent<StoreManager>();
+            _storeManager.DogPoints = DogPoints;
         }
     }
 }

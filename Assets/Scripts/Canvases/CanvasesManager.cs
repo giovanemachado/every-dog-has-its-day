@@ -14,6 +14,7 @@ namespace RouteTeamStudios.Canvases
         public GameObject HUDCanvas;
         public GameObject GameOverCanvas;
         public GameObject QuitCanvas;
+        public GameObject StoreCanvas;
 
         void Awake()
         {
@@ -32,6 +33,7 @@ namespace RouteTeamStudios.Canvases
             PausedMenuCanvas.SetActive(state == GameManager.Instance.PausedState);
             GameOverCanvas.SetActive(state == GameManager.Instance.GameOverState);
             QuitCanvas.SetActive(state == GameManager.Instance.QuitState);
+            StoreCanvas.SetActive(state == GameManager.Instance.StoreState);
         }
 
         // Main Menu
@@ -66,6 +68,11 @@ namespace RouteTeamStudios.Canvases
         public void PlayAgainButtonPressed()
         {
             SceneManager.LoadScene("GameScene"); // TODO is this the best way?
+        }
+
+        public void StoreButtonPressed()
+        {
+            GameManager.Instance.SwitchState(GameManager.Instance.StoreState);
         }
     }
 }
